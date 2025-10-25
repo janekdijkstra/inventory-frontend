@@ -1,0 +1,22 @@
+{
+  "plugins": ["stylelint-scss", "stylelint-prettier"],
+  "extends": "stylelint-config-standard-scss",
+  "rules": {
+    "prettier/prettier": true,
+    "selector-class-pattern": [".*", {}],
+    "font-family-name-quotes": "always-unless-keyword",
+    "block-no-empty": true,
+    "custom-property-pattern": [".*", {}],
+    "declaration-block-no-redundant-longhand-properties": [
+      true,
+      {
+        "ignoreShorthands": ["/.*/"]
+      }
+    ],
+    "number-max-precision": [5, {}],
+    "property-no-vendor-prefix": null,
+    "at-rule-no-unknown": null,
+    "scss/at-rule-no-unknown": true,
+    "scss/at-mixin-pattern": null
+  }
+}
