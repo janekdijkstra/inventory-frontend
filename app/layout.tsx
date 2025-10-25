@@ -7,7 +7,13 @@ const inter = Inter({
   subsets: ["latin"],
 });
 
-import "@brynlabs/bryn-css/dist/bryn.css"; // Install bryn-css
+import "@brynlabs/bryn-css/dist/bryn.css";
+import {QueryClientProvider} from "@/components/query-client-provider";
+import type {Metadata} from "next";
+
+export const metadata: Metadata = {
+  title: "FusionUI Starter",
+};
 
 export default function RootLayout({
   children,
@@ -16,7 +22,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={inter.className}>
-      <FusionUIProvider>{children}</FusionUIProvider>
+      <FusionUIProvider>
+        <QueryClientProvider>{children}</QueryClientProvider>
+      </FusionUIProvider>
     </html>
   );
 }
