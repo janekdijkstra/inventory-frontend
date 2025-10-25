@@ -9,6 +9,8 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@brynlabs/bryn-css": "3.0.0-alpha.15",
+    "@brynlabs/fusion-ui": "v1.0.0-alpha.82",
     "next": "16.0.0",
     "react": "19.2.0",
     "react-dom": "19.2.0"
@@ -20,6 +22,7 @@
     "babel-plugin-react-compiler": "1.0.0",
     "eslint": "^9",
     "eslint-config-next": "16.0.0",
+    "sass": "^1.93.2",
     "typescript": "^5"
   },
   "packageManager": "yarn@4.10.3"
