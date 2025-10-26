@@ -83,7 +83,6 @@ export const authOptions: AuthOptions = {
 
       return {
         ...session,
-        access_token: token.access_token as string,
         user: {
           ...session.user,
           image: session.user?.email

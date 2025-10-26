@@ -1,4 +1,3 @@
-import type {Metadata} from "next";
 import {SessionProvider} from "@/components/auth/session-provider";
 import {QueryClientProvider} from "@/components/query-client-provider";
 import {getServerSession} from "next-auth/next";
