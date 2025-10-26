@@ -1,44 +1,152 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# FusionUI Template
+
+A modern Next.js starter template built with FusionUI components, featuring authentication, automated CI/CD, and Docker deployment.
+
+## Features
+
+- ⚡ **Next.js 16** with React 19
+- 🎨 **FusionUI Components** - Modern UI component library
+- 🔐 **NextAuth.js** - Complete authentication solution
+- 🔍 **TanStack Query** - Powerful data fetching and caching
+- 🐋 **Docker** - Containerized deployment
+- 🚀 **CI/CD Pipeline** - Automated builds and semantic releases
+- 🎯 **TypeScript** - Full type safety
+- 🧹 **ESLint + Prettier** - Code quality and formatting
+- 📋 **Pre-commit hooks** - Automated code quality checks
+
+## Prerequisites
+
+- Node.js 18+
+- Yarn 4+ (managed via packageManager)
+- Docker (for containerized deployment)
+- pre-commit (https://pre-commit.com/#install)
 
 ## Setup
 
-install pre-commit on your system https://pre-commit.com/#install
+1. **Install pre-commit hooks:**
+
+   ```bash
+   pre-commit install
+   ```
+
+2. **Configure environment:**
+
+   ```bash
+   cp .env.example .env.local
+   # Edit .env.local with your configuration
+   ```
+
+3. **Install dependencies:**
+   ```bash
+   yarn install
+   ```
+
+## Development
+
+Start the development server:
 
 ```bash
-pre-commit install
-```
-
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+├── app/                    # Next.js app router pages
+├── components/             # Reusable UI components
+├── assets/                 # Static assets (images, icons, etc.)
+└── types/                  # TypeScript type definitions
+```
 
-## Learn More
+## Authentication
 
-To learn more about Next.js, take a look at the following resources:
+This template includes NextAuth.js for authentication with an integrated API proxy pattern that simplifies backend communication.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### How it works
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The application uses an **API proxy** (see `app/api/[...slug]/route.ts`) that handles all backend authentication automatically:
 
-## Deploy on Vercel
+- ✅ **Frontend**: Only needs NextAuth.js session management - no JWT handling required
+- ✅ **API Proxy**: Validates session server-side and forwards requests to backend
+- ✅ **Backend**: Receives authenticated requests without additional auth logic
+- ✅ **Security**: Access tokens never exposed to frontend code
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Usage
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Make API calls to `/api/*` routes which automatically proxy to your backend:
+
+```typescript
+// Frontend code - no authentication headers needed
+const response = await fetch("/api/users/profile");
+const data = await response.json();
+```
+
+The proxy will:
+
+1. Check the NextAuth.js session
+2. Return 403 if user is not authenticated
+3. Forward the request to your backend API
+4. Return the backend response
+
+Configure your providers in the environment variables and update the auth configuration as needed.
+
+## Deployment
+
+### Docker
+
+The project includes a Docker setup optimized for production:
+
+```bash
+# Build the image
+docker build -t fusionui-template .
+
+# Run the container
+docker run -p 3000:80 fusionui-template
+```
+
+### CI/CD Pipeline
+
+The GitHub Actions workflow automatically:
+
+1. **Lints and builds** the application
+2. **Runs semantic release** to determine version bumps
+3. **Builds and pushes Docker images** when releases are created
+4. **Supports multi-platform builds** (AMD64/ARM64)
+
+> To publish Docker images you need to update your `.github/workflows/main.yml`
+
+#### Required Secrets
+
+Configure these secrets in your GitHub repository:
+
+**Secrets:**
+
+- `NPM_TOKEN` - Access token for private npm registry
+- `REGISTRY_PASSWORD` - Docker registry password
+
+**Variables:**
+
+- `REGISTRY_USERNAME` - Docker registry username
+
+## FusionUI Components
+
+This template uses the FusionUI component library. Refer to the [FusionUI documentation](https://fusion-ui.foolsparadise.intra/) for available components and usage examples.
+
+## Environment Variables
+
+See `.env.example` for required environment variables:
+
+## Contributing
+
+1. Create a feature branch from `main`
+2. Make your changes
+3. Ensure tests pass and code is linted
+4. Submit a pull request
+
+Pre-commit hooks will automatically format code and run checks.
+
+## License
+
+This project is private and proprietary.

@@ -1,5 +1,4 @@
-# ---- Production Stage ----
-FROM node:24-alpine AS runner
+FROM node:24-alpine
 
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
