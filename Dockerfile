@@ -1,14 +1,13 @@
 # ---- Build Stage ----
 FROM node:24 AS builder
 
-ARG NPM_TOKEN
-
 WORKDIR /app
 COPY package.json ./
 COPY yarn.lock ./
 COPY .yarnrc.yml ./
 COPY .yarn ./.yarn
-RUN echo "npmRegistries:\n  \"https://npm.foolsparadise.de\":\n    npmAuthToken: $NPM_TOKEN" > ~/.yarnrc.yml
+RUN --mount=type=secret,id=NPM_TOKEN \
+    echo "npmRegistries:\n  \"https://npm.foolsparadise.de\":\n    npmAuthToken: $(cat /run/secrets/NPM_TOKEN)" > ~/.yarnrc.yml
 RUN yarn install --immutable
 
 COPY next.config.ts .
