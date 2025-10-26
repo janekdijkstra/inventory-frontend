@@ -32,7 +32,11 @@ jobs:
 
       - name: Setup yarn with NPM token
         run: |
-          yarn config set npmRegistries."https://npm.foolsparadise.de".npmAuthToken "${{ secrets.NPM_TOKEN }}"
+          cat <<EOF > ~/.yarnrc.yml
+          npmRegistries:
+            "https://npm.foolsparadise.de":
+              npmAuthToken: "${{ secrets.NPM_TOKEN }}"
+          EOF
 
       - name: Install dependencies
         run: yarn install --immutable
