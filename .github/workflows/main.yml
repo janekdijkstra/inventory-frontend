@@ -16,6 +16,9 @@ jobs:
       contents: write
       issues: write
       pull-requests: write
+    outputs:
+      new_release_published: ${{ steps.semantic.outputs.new_release_published }}
+      new_release_version: "v${{ steps.semantic.outputs.new_release_version }}"
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -46,18 +49,22 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ vars.REGISTRY_USERNAME }}
-          password: ${{ secrets.REGISTRY_PASSWORD }}
+      # Todo: uncomment to publish images
+      #      - name: Login to Docker Registry
+      #        if: steps.semantic.outputs.new_release_published == 'true'
+      #        uses: docker/login-action@v3
+      #        with:
+      #          registry: ${{ env.REGISTRY }}
+      #          username: ${{ vars.REGISTRY_USERNAME }}
+      #          password: ${{ secrets.REGISTRY_PASSWORD }}
 
       - name: Build and push
+        if: steps.semantic.outputs.new_release_published == 'true'
         uses: docker/build-push-action@v6
         with:
           platforms: linux/amd64,linux/arm64
-          push: true
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          # Todo: uncomment to publish images
+          #          push: true
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:v${{ steps.semantic.outputs.new_release_version }}
           secrets: |
             NPM_TOKEN=${{ secrets.NPM_TOKEN }}
