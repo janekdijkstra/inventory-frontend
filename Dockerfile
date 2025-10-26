@@ -26,6 +26,7 @@ RUN yarn build
 # ---- Production Stage ----
 FROM node:24-alpine AS runner
 
+ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
 ENV PORT=80
 
