@@ -6,7 +6,6 @@ import {redirect} from "next/navigation";
 import {AccountMenu, MenuBarView} from "@brynlabs/fusion-ui";
 import Image from "next/image";
 import logo from "@/assets/logo.png";
-import RefreshAccessToken from "@/components/auth/refresh-access-token";
 
 export default async function RootLayout({
   children,
@@ -23,7 +22,6 @@ export default async function RootLayout({
     <SessionProvider
       refetchOnWindowFocus={typeof navigator !== "undefined" && navigator.onLine}
       refetchWhenOffline={false}>
-      <RefreshAccessToken></RefreshAccessToken>
       <QueryClientProvider>
         <MenuBarView
           logo={<Image src={logo} alt={"foolsparadise"}></Image>}
