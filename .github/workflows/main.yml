@@ -30,24 +30,34 @@ jobs:
         with:
           node-version: "lts/*"
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
+      - name: Setup yarn with NPM token
+        run: |
+          echo "npmRegistries:\n  \"https://npm.foolsparadise.de\":\n    npmAuthToken: ${{ secrets.NPM_TOKEN }}" > ~/.yarnrc.yml
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+      - name: Install dependencies
+        run: yarn install --immutable
 
-      - name: Build and export to Docker
-        uses: docker/build-push-action@v6
-        with:
-          secrets: |
-            NPM_TOKEN=${{ secrets.NPM_TOKEN }}
-          load: true
+      - name: Lint Next.js application
+        run: yarn lint
+
+      # you may want to run tests here.
+
+      - name: Build Next.js application
+        run: yarn build
 
       - name: Semantic Release
         uses: cycjimmy/semantic-release-action@v4
         id: semantic # Need an `id` for output variables
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up QEMU
+        if: steps.semantic.outputs.new_release_published == 'true'
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        if: steps.semantic.outputs.new_release_published == 'true'
+        uses: docker/setup-buildx-action@v3
 
       # Todo: uncomment to publish images
       #      - name: Login to Docker Registry
@@ -58,13 +68,12 @@ jobs:
       #          username: ${{ vars.REGISTRY_USERNAME }}
       #          password: ${{ secrets.REGISTRY_PASSWORD }}
 
-      - name: Build and push
+      - name: Build and push docker image
         if: steps.semantic.outputs.new_release_published == 'true'
         uses: docker/build-push-action@v6
         with:
+          context: .
           platforms: linux/amd64,linux/arm64
           # Todo: uncomment to publish images
           #          push: true
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:v${{ steps.semantic.outputs.new_release_version }}
-          secrets: |
-            NPM_TOKEN=${{ secrets.NPM_TOKEN }}

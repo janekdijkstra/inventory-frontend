@@ -1,28 +1,3 @@
-# ---- Build Stage ----
-FROM node:24 AS builder
-
-WORKDIR /app
-COPY package.json ./
-COPY yarn.lock ./
-COPY .yarnrc.yml ./
-COPY .yarn ./.yarn
-RUN --mount=type=secret,id=NPM_TOKEN \
-    echo "npmRegistries:\n  \"https://npm.foolsparadise.de\":\n    npmAuthToken: $(cat /run/secrets/NPM_TOKEN)" > ~/.yarnrc.yml
-RUN yarn install --immutable
-
-COPY next.config.ts .
-COPY tsconfig.json .
-COPY eslint.config.mjs .
-COPY .env.production .
-
-COPY app ./app
-COPY assets ./assets
-COPY components ./components
-COPY types ./types
-
-RUN yarn build
-
-
 # ---- Production Stage ----
 FROM node:24-alpine AS runner
 
@@ -35,8 +10,8 @@ WORKDIR /app
 COPY start.sh /start.sh
 RUN chmod +x /start.sh
 
-COPY --from=builder /app/.next/standalone ./
-COPY --from=builder /app/.next/static ./.next/static
+COPY .next/standalone ./
+COPY .next/static ./.next/static
 
 EXPOSE 80
 
