@@ -22,6 +22,12 @@ A modern Next.js starter template built with FusionUI components, featuring auth
 - pre-commit (https://pre-commit.com/#install)
 
 ## Setup
+1. **Clone repo and rename origin**
+   ```bash
+   git remote rename origin upstream
+   git remote add origin URL_TO_GITHUB_REPO
+   git push origin main
+   ```
 
 1. **Install pre-commit hooks:**
 
@@ -42,6 +48,11 @@ A modern Next.js starter template built with FusionUI components, featuring auth
    ```
 
 ## Development
+
+Pull changes from upstream:
+```bash
+git pull upstream main
+```
 
 Start the development server:
 
