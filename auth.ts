@@ -36,6 +36,7 @@ export const {auth, handlers, signIn, signOut} = NextAuth({
         // Subsequent logins, but the `access_token` has expired, try to refresh it
         if (!token.refresh_token) throw new TypeError("Missing refresh_token");
 
+        console.log("refreshing token")
         try {
           // The `token_endpoint` can be found in the provider's documentation. Or if they support OIDC,
           // at their `/.well-known/openid-configuration` endpoint.
@@ -83,6 +84,7 @@ export const {auth, handlers, signIn, signOut} = NextAuth({
 
       return {
         ...session,
+        token_expires_at: token.expires_at,
         user: {
           ...session.user,
           image: session.user?.email
