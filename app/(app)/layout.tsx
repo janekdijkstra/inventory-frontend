@@ -9,8 +9,8 @@ import {Reload} from "@/components/auth/reload";
 import RefreshSession from "@/components/auth/refresh-session";
 
 export default async function RootLayout({
-                                           children,
-                                         }: Readonly<{
+  children,
+}: Readonly<{
   children: React.ReactNode;
 }>) {
   const {token} = await getAccessToken();
@@ -21,20 +21,20 @@ export default async function RootLayout({
 
   // eslint-disable-next-line react-hooks/purity
   if (token?.expires_at && Date.now() > token.expires_at * 1000 - 10000) {
-    return <SessionProvider
-      refetchOnWindowFocus={typeof navigator !== "undefined" && navigator.onLine}
-      refetchWhenOffline={false}
-    >
-      <Reload/>
-    </SessionProvider>;
+    return (
+      <SessionProvider
+        refetchOnWindowFocus={typeof navigator !== "undefined" && navigator.onLine}
+        refetchWhenOffline={false}>
+        <Reload />
+      </SessionProvider>
+    );
   }
 
   return (
     <SessionProvider
       refetchOnWindowFocus={typeof navigator !== "undefined" && navigator.onLine}
-      refetchWhenOffline={false}
-    >
-      <RefreshSession/>
+      refetchWhenOffline={false}>
+      <RefreshSession />
       <QueryClientProvider>
         <MenuBarView
           logo={<Image src={logo} alt={"foolsparadise"}></Image>}

@@ -8,24 +8,23 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({
-                                           children,
-                                         }: Readonly<{
+  children,
+}: Readonly<{
   children: React.ReactNode;
 }>) {
   const session = await auth();
 
   return (
     <html lang="de">
-    <body className={"fp-base-style-scope body surface surface--secondary"}>
-    <SessionProvider
-      refetchOnWindowFocus={typeof navigator !== "undefined" && navigator.onLine}
-      refetchWhenOffline={false}
-    >
-      <QueryClientProvider>
-        <main className={"container container-block"}>{children}</main>
-      </QueryClientProvider>
-    </SessionProvider>
-    </body>
+      <body className={"fp-base-style-scope body surface surface--secondary"}>
+        <SessionProvider
+          refetchOnWindowFocus={typeof navigator !== "undefined" && navigator.onLine}
+          refetchWhenOffline={false}>
+          <QueryClientProvider>
+            <main className={"container container-block"}>{children}</main>
+          </QueryClientProvider>
+        </SessionProvider>
+      </body>
     </html>
   );
 }
