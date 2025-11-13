@@ -11,9 +11,14 @@ export const Logout = () => {
           Du bist aktuell mit der E-Mail Adresse {session.user.email} angemeldet.
         </p>
         <br />
-        <button onClick={() => signOut({
-          redirectTo: "/api/auth/postsignout",
-        })}>Abmelden</button>
+        <button
+          onClick={() =>
+            signOut({
+              redirectTo: "/api/auth/postsignout",
+            })
+          }>
+          Abmelden
+        </button>
       </div>
     );
   }

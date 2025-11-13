@@ -83,6 +83,7 @@ export const {auth, handlers, signIn, signOut} = NextAuth({
 
       return {
         ...session,
+        token_expires_at: token.expires_at,
         user: {
           ...session.user,
           image: session.user?.email
@@ -95,9 +96,9 @@ export const {auth, handlers, signIn, signOut} = NextAuth({
   events: {
     async signOut(message) {
       if (message.hasOwnProperty("token")) {
-        const token = (message as { token: JWT | null }).token;
+        const token = (message as {token: JWT | null}).token;
         if (!token?.id_token) return;
-        const issuerUrl = (process.env.AUTH_KEYCLOAK_ISSUER)!;
+        const issuerUrl = process.env.AUTH_KEYCLOAK_ISSUER!;
         const logOutUrl = new URL(`${issuerUrl}/protocol/openid-connect/logout`);
         logOutUrl.searchParams.set("id_token_hint", token.id_token);
         await fetch(logOutUrl);
@@ -109,7 +110,9 @@ export const {auth, handlers, signIn, signOut} = NextAuth({
   },
 });
 
-export const getAccessToken = async (): Promise<{ token: JWT, session: Session } | { token: null, session: null }> => {
+export const getAccessToken = async (): Promise<
+  {token: JWT; session: Session} | {token: null; session: null}
+> => {
   const session = await auth();
   if (!session) return {token: null, session: null};
 
@@ -125,15 +128,14 @@ export const getAccessToken = async (): Promise<{ token: JWT, session: Session }
     .getAll()
     .filter(({name}) => name === baseCookieName || name.startsWith(`${baseCookieName}.`))
     .sort((a, b) => {
-      const getIndex = (n: string) =>
-        Number(n.split(".").pop() ?? 0);
+      const getIndex = (n: string) => Number(n.split(".").pop() ?? 0);
       return getIndex(a.name) - getIndex(b.name);
     });
 
   if (cookieParts.length === 0) return {token: null, session: null};
 
   // Concatenate all parts
-  const token = cookieParts.map((c) => c.value).join("");
+  const token = cookieParts.map(c => c.value).join("");
 
   // Decode the token
   const decodedToken = await decode({
