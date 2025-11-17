@@ -298,6 +298,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@brynlabs/fusion-css@npm:v3.0.0-alpha.22":
+  version: 3.0.0-alpha.22
+  resolution: "@brynlabs/fusion-css@npm:3.0.0-alpha.22"
+  checksum: 10c0/23bb887694e6436dc95d8bee30e122d9a8691875b8078da8e5b867346a0ac79a48af9545b572b663e99816d5630428d217663225351a0f00d2a76eae0e3cc500
+  languageName: node
+  linkType: hard
+
 "@brynlabs/fusion-ui@npm:v1.0.0-alpha.105":
   version: 1.0.0-alpha.105
   resolution: "@brynlabs/fusion-ui@npm:1.0.0-alpha.105"
@@ -4399,6 +4406,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "nextjs-starter-fusionui@workspace:."
   dependencies:
+    "@brynlabs/fusion-css": "npm:v3.0.0-alpha.22"
     "@brynlabs/fusion-ui": "npm:v1.0.0-alpha.105"
     "@tanstack/react-query": "npm:^5.90.5"
     "@types/node": "npm:^20"
