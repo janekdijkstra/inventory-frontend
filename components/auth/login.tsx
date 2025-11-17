@@ -16,7 +16,7 @@ export const Login = () => {
 
   const {data: session} = useSession();
   if (!session) {
-    signIn("keycloak", {callbackUrl: callbackUrl});
+    signIn("keycloak", {redirectTo: callbackUrl});
   }
 
   return <></>;

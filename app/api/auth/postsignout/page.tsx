@@ -8,6 +8,6 @@ export default async function SignIn() {
   if (session) {
     redirect("/");
   } else {
-    return <Login />;
+    return <div>Logout erfolgreich.</div>;
   }
 }

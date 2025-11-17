@@ -1,6 +1,5 @@
 import {NextRequest, NextResponse} from "next/server";
-import {getServerSession} from "next-auth/next";
-import {authOptions} from "@/app/api/auth/[...nextauth]/authOptions";
+import {getAccessToken} from "@/auth";
 
 export async function GET(request: NextRequest, {params}: {params: Promise<{slug: string[]}>}) {
   return proxyRequest(request, (await params).slug);
@@ -31,9 +30,9 @@ export async function OPTIONS(request: NextRequest, {params}: {params: Promise<{
 }
 
 async function proxyRequest(request: NextRequest, slug: string[]) {
-  const session = await getServerSession(authOptions);
+  const {token} = await getAccessToken();
 
-  if (!session) {
+  if (!token) {
     return NextResponse.json({error: "Unauthenticated"}, {status: 403});
   }
 
