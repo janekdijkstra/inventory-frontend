@@ -7,7 +7,7 @@ const inter = Inter({
   subsets: ["latin"],
 });
 
-import "@brynlabs/bryn-css/dist/bryn.css";
+import "@brynlabs/fusion-css/dist/fusion.css";
 import {QueryClientProvider} from "@/components/query-client-provider";
 import type {Metadata} from "next";
 
