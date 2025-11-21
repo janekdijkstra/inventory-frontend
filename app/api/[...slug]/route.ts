@@ -68,7 +68,7 @@ async function proxyRequest(request: NextRequest, slug: string[]) {
       }
     });
 
-    const responseBody = await response.text();
+    const responseBody = response.body;
 
     return new NextResponse(responseBody, {
       status: response.status,
