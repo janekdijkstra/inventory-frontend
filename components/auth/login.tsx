@@ -10,7 +10,7 @@ export const Login = () => {
   searchParams
     .keys()
     .filter(key => key !== "callbackUrl")
-    .forEach((key, index) => {
+    .forEach(key => {
       callbackUrl += "?" + key + "=" + searchParams.get(key);
     });
 

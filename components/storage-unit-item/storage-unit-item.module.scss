@@ -1,0 +1,24 @@
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  &:hover,
+  &:active {
+    background: #eee;
+  }
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+
+  .count {
+    padding: 1rem;
+  }
+
+  button {
+    padding: 1rem;
+    background: lightgray;
+  }
+}

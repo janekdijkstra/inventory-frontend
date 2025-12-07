@@ -45,26 +45,28 @@ async function proxyRequest(request: NextRequest, slug: string[]) {
 
   try {
     const body =
-      request.method !== "GET" && request.method !== "HEAD" ? await request.text() : undefined;
+      request.method !== "GET" && request.method !== "HEAD" ? await request.bytes() : undefined;
 
-    const headers = new Headers();
+    const headers: RequestInit["headers"] = {};
     request.headers.forEach((value, key) => {
       if (!["host", "connection", "content-length", "cookie"].includes(key.toLowerCase())) {
-        headers.set(key, value);
+        headers[key] = value;
       }
     });
 
-    // Todo: include your authentication here if needed
     const response = await fetch(url, {
       method: request.method,
-      headers,
+      headers: {
+        ...headers,
+        authorization: `Bearer ${token.access_token}`,
+      },
       body,
     });
 
-    const responseHeaders = new Headers();
+    const responseHeaders: RequestInit["headers"] = {};
     response.headers.forEach((value, key) => {
       if (!["connection", "transfer-encoding", "content-encoding"].includes(key.toLowerCase())) {
-        responseHeaders.set(key, value);
+        responseHeaders[key] = value;
       }
     });
 

@@ -1,5 +1,4 @@
 import {redirect} from "next/navigation";
-import {Login} from "@/components/auth/login";
 import {auth} from "@/auth";
 
 export default async function SignIn() {

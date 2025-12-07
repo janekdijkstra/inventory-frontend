@@ -5,6 +5,7 @@ declare module "next-auth" {
    * Returned by `useSession`, `getSession` and received as a prop on the `SessionProvider` React Context
    */
   interface Session {
+    access_token?: string;
     token_expires_at?: number;
     user: DefaultSession["user"] & {
       image?: string;

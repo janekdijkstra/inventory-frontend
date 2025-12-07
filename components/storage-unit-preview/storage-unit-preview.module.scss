@@ -1,0 +1,19 @@
+.storageUnit {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  gap: 1rem;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+
+  img {
+    height: 3rem;
+    width: auto;
+  }
+}
+
+.content {
+  h2 {
+    font-weight: bold;
+  }
+}
