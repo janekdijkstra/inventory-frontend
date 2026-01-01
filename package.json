@@ -13,7 +13,7 @@
     "@brynlabs/fusion-ui": "v1.0.0-alpha.127",
     "@tanstack/react-query": "^5.90.12",
     "js-sha256": "^0.11.1",
-    "next": "16.0.8",
+    "next": "16.0.10",
     "next-auth": "^5.0.0-beta.30",
     "react": "19.2.1",
     "react-dom": "19.2.1"
