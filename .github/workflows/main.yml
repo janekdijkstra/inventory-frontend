@@ -92,4 +92,3 @@ jobs:
           push: true
           tags: |
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:v${{ steps.semantic.outputs.new_release_version }}
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
